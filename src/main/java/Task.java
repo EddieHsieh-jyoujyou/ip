@@ -14,4 +14,17 @@ public class Task {
     public void markTaskAsDone() {
         this.done = true;
     }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public Boolean getDone() {
+        return done;
+    }
+
+    public String toOutput() {
+        String mark = (done) ? "✓" : "✗";
+        return "[" + mark + "] " + taskName;
+    }
 }
