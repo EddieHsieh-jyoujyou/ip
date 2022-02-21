@@ -12,8 +12,6 @@ public class Constant {
 
     public final static String GOODBYE = formOutputBySingleString("Bye. Hope to see you again soon!");
 
-    public final static String ADD = " added: ";
-
     public final static String CONDITION_BYE = "bye";
     public final static String CONDITION_LIST = "list";
 
