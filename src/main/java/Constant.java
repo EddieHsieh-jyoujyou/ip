@@ -18,7 +18,7 @@ public class Constant {
     public final static String CONDITION_BYE = "bye";
     public final static String CONDITION_LIST = "list";
 
-    public final static String ERROR_WHILE_ADD_TASK = formOutputBySingleString("Adding task failed.");
+    public final static String ERROR_WHILE_ADD_TASK = formOutputBySingleString("Adding task failed. All prefix mismatch");
     public final static String ERROR_WHILE_MARK_TASK_AS_DONE =
             formOutputBySingleString("Mark task as done failed, index out of bound.");
 

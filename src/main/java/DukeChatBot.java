@@ -9,12 +9,19 @@ public class DukeChatBot {
         listOfChatBotContent = new ArrayList<>();
     }
 
-    public void addStringToList(String input) {
-        if (listOfChatBotContent.add(new Task(input))) {
-            System.out.println(Constant.formOutputBySingleString("added: " + input));
+    public void addStringToList(String input, String type, String specificTime) {
+        Task task;
+        try {
+            task = new Task(input, type, specificTime);
+            listOfChatBotContent.add(task);
+        } catch (RuntimeException e) {
+            System.out.println(Constant.formOutputBySingleString(e.getMessage()));
             return;
         }
-        System.out.println(Constant.ERROR_WHILE_ADD_TASK);
+        System.out.println(Constant.formOutputByList(Arrays
+                .asList("Got it. I've added this task:",
+                        "  " + task.toOutput(),
+                        "Now you have " + listOfChatBotContent.size() + " tasks in the list.")));
     }
 
     public void markTaskAsDone(Integer index) {

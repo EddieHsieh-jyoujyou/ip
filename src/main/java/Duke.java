@@ -13,9 +13,6 @@ public class Duke {
         while (scanner.hasNextLine()){
             String input = scanner.nextLine();
 
-            Pattern pattern = Pattern.compile("done [1-9][0-9]*");
-            Matcher matcher = pattern.matcher(input);
-
             if (Objects.equals(input, Constant.CONDITION_BYE)) {
                 break;
             }
@@ -26,12 +23,33 @@ public class Duke {
                     chatBot.showListOfChatBotContent();
                     continue;
             }
+            Pattern pattern = Pattern.compile("done [1-9][0-9]*");
+            Matcher matcher = pattern.matcher(input);
             if (matcher.matches()) {
                 Integer taskNumber = Integer.parseInt(input.replace("done ", ""));
                 chatBot.markTaskAsDone(taskNumber);
                 continue;
             }
-            chatBot.addStringToList(input);
+
+            if (input.startsWith("todo ")) {
+                chatBot.addStringToList(input.replace("todo ", ""), "T", "");
+            } else if (input.startsWith("deadline ") && input.contains(" /by ")) {
+                String [] task = input.replace("deadline ", "").split(" /by ");
+                if (task.length != 2) {
+                    System.out.println(Constant.ERROR_WHILE_ADD_TASK);
+                    continue;
+                }
+                chatBot.addStringToList(task[0], "D", task[1]);
+            } else if (input.startsWith("event ") && input.contains(" /at ")) {
+                String [] task = input.replace("event ", "").split(" /at ");
+                if (task.length != 2) {
+                    System.out.println(Constant.ERROR_WHILE_ADD_TASK);
+                    continue;
+                }
+                chatBot.addStringToList(task[0], "E", task[1]);
+            } else {
+                System.out.println(Constant.ERROR_WHILE_ADD_TASK);
+            }
         }
 
         System.out.println(Constant.GOODBYE);
