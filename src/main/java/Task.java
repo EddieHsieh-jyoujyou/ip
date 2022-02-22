@@ -25,14 +25,6 @@ public class Task {
         this.done = true;
     }
 
-    public String getTaskName() {
-        return taskName;
-    }
-
-    public Boolean getDone() {
-        return done;
-    }
-
     public String toOutput() {
         String mark = (done) ? "✓" : "✗";
         String time;
@@ -40,16 +32,36 @@ public class Task {
         switch (type) {
             case DEADLINE:
                 time = " (by: " + specificTime + ")";
-                typeCharacter = "D";
+                typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_DEADLINE;
                 break;
             case EVENT:
                 time = " (at: " + specificTime + ")";
-                typeCharacter = "E";
+                typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_EVENT;
                 break;
             default:
                 time = specificTime;
-                typeCharacter = "T";
+                typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_TODO;
         }
         return "[" + typeCharacter + "][" + mark + "] " + taskName + time;
+    }
+
+    public String toFileOutput() {
+        String mark = (done) ? "1" : "0";
+        String time;
+        String typeCharacter;
+        switch (type) {
+            case DEADLINE:
+                time = " | " + specificTime;
+                typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_DEADLINE;
+                break;
+            case EVENT:
+                time = " | " + specificTime;
+                typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_EVENT;
+                break;
+            default:
+                time = specificTime;
+                typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_TODO;
+        }
+        return typeCharacter + " | " + mark + " | " + taskName + time + "\n";
     }
 }

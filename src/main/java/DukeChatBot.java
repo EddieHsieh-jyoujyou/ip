@@ -1,12 +1,101 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class DukeChatBot {
     private final List<Task> listOfChatBotContent;
+    private Path dukeChatRecordPath;
 
     public DukeChatBot() {
         listOfChatBotContent = new ArrayList<>();
+        loadTaskList();
+    }
+
+    private void loadTaskList() {
+        Path root = FileSystems.getDefault().getPath("").toAbsolutePath();
+        dukeChatRecordPath = Paths.get(root.toString(), "data", "duke.txt");
+
+        if (createFileDirectoryIfNotExist(dukeChatRecordPath)) {
+            loadTaskListFromFile(dukeChatRecordPath);
+        }
+    }
+
+    private void loadTaskListFromFile(Path path) {
+        File dukeChatRecord = new File(path.toString());
+        try {
+            Scanner scanner = new Scanner(dukeChatRecord);
+            while (scanner.hasNextLine()) {
+                String input = scanner.nextLine();
+                String [] taskString = input.split(" \\| ");
+                if (Objects.equals(taskString[0], Constant.SINGLE_CHARACTER_TASK_TYPE_TODO)) {
+                    try {
+                        Task task = new Task(taskString[2], TaskTypeEnum.TODO, "");
+                        if (Objects.equals(taskString[1], "1")) {
+                            task.markTaskAsDone();
+                        }
+                        listOfChatBotContent.add(task);
+                    } catch (RuntimeException e) {
+                        e.printStackTrace();
+                    }
+                } else if (Objects.equals(taskString[0], Constant.SINGLE_CHARACTER_TASK_TYPE_DEADLINE)) {
+                    try {
+                        Task task = new Task(taskString[2], TaskTypeEnum.DEADLINE, taskString[3]);
+                        if (Objects.equals(taskString[1], "1")) {
+                            task.markTaskAsDone();
+                        }
+                        listOfChatBotContent.add(task);
+                    } catch (RuntimeException e) {
+                        e.printStackTrace();
+                    }
+                } else if (Objects.equals(taskString[0], Constant.SINGLE_CHARACTER_TASK_TYPE_EVENT)) {
+                    try {
+                        Task task = new Task(taskString[2], TaskTypeEnum.EVENT, taskString[3]);
+                        if (Objects.equals(taskString[1], "1")) {
+                            task.markTaskAsDone();
+                        }
+                        listOfChatBotContent.add(task);
+                    } catch (RuntimeException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.out.println("Unknown command from file.");
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(Constant.ERROR_WHILE_LOAD_TASK_LIST_FROM_FILE);
+        }
+    }
+
+    private Boolean createFileDirectoryIfNotExist(Path path) {
+        if (!Files.exists(path)) {
+            try {
+                Files.createFile(path);
+            } catch (IOException e) {
+                System.out.println(Constant.ERROR_WHILE_CREATE_FILE_DIR);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void saveTasksToFile() {
+        try {
+            FileWriter writer = new FileWriter(dukeChatRecordPath.toString());
+            for (Task task : listOfChatBotContent) {
+                writer.write(task.toFileOutput());
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println(Constant.ERROR_WHILE_WRITE_TO_FILE);
+        }
+
     }
 
     public void addStringToList(String input, TaskTypeEnum type, String specificTime) {
@@ -30,6 +119,7 @@ public class DukeChatBot {
                 .asList("Got it. I've added this task:",
                         "  " + task.toOutput(),
                         "Now you have " + listOfChatBotContent.size() + " tasks in the list.")));
+        saveTasksToFile();
     }
 
     public void deleteTaskFromListWithIndex(int index) {
@@ -42,6 +132,7 @@ public class DukeChatBot {
                 .asList(Constant.STRING_DELETE_SUCCESS,
                         "  " + task.toOutput(),
                         "Now you have " + listOfChatBotContent.size() + " tasks in the list.")));
+        saveTasksToFile();
     }
 
     public void markTaskAsDone(Integer index) {
