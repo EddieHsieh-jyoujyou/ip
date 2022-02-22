@@ -16,16 +16,27 @@ public class DukeCommandHandler {
     public DukeCommandHandler() {
         dukeChatBot = new DukeChatBot();
     }
-    
+
+    /**
+     * If command equal to "bye", print goodbye message.
+     */
     public void byeHandler() {
         System.out.println(Constant.GOODBYE);
     }
-    
+
+    /**
+     * Parse command preliminary and then call DukeChatBot to add this task.
+     * @param input command
+     */
     public void todoHandler(String input) {
         String taskName = input.replace("todo", "");
         dukeChatBot.addStringToList(taskName, TaskTypeEnum.TODO, "");
     }
-    
+
+    /**
+     * Parse command preliminary and then call DukeChatBot to add this task.
+     * @param input command
+     */
     public void deadlineHandler(String input) {
         String [] task = input.replace("deadline ", "").split(" /by ");
         if (task.length != 2) {
@@ -34,7 +45,11 @@ public class DukeCommandHandler {
         }
         dukeChatBot.addStringToList(task[0], TaskTypeEnum.DEADLINE, task[1]);
     }
-    
+
+    /**
+     * Parse command preliminary and then call DukeChatBot to add this task.
+     * @param input command
+     */
     public void eventHandler(String input) {
         String [] task = input.replace("event ", "").split(" /at ");
         if (task.length != 2) {
@@ -43,16 +58,27 @@ public class DukeCommandHandler {
         }
         dukeChatBot.addStringToList(task[0], TaskTypeEnum.EVENT, task[1]);
     }
-    
+
+    /**
+     * Call DukeChatBot to show the list of task.
+     */
     public void listHandler() {
         dukeChatBot.showListOfChatBotContent();
     }
-    
+
+    /**
+     * Call DukeChatBot to delete task from task list.
+     * @param input command
+     */
     public void deleteHandler(String input) {
         int index = Integer.parseInt(input.split(" ")[1]);
         dukeChatBot.deleteTaskFromListWithIndex(index);
     }
-    
+
+    /**
+     * Mark specific task as done.
+     * @param input command
+     */
     public void doneHandler(String input) {
         Pattern pattern = Pattern.compile("done [1-9][0-9]*");
         Matcher matcher = pattern.matcher(input);
@@ -61,7 +87,12 @@ public class DukeCommandHandler {
             dukeChatBot.markTaskAsDone(taskNumber);
         }
     }
-    
+
+    /**
+     * Print unknown error message.
+     * @param input command, I want to keep it because this should be recorded by application.
+     *              However, we don't have log system in this project yet.
+     */
     public void unknownHandler(String input) {
         System.out.println(Constant.ERROR_COMMAND);
     }

@@ -3,6 +3,11 @@ import utils.Constant;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * Entry point of Duke project.
+ * This class provide user to type command, by identifying different prefix of command, call different method of
+ * DukeCommandHandler.
+ */
 public class Duke {
     public static void main(String[] args) {
         System.out.println(Constant.GREETINGS);

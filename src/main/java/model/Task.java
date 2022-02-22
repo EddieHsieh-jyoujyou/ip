@@ -12,10 +12,23 @@ public class Task {
     private TaskTypeEnum type;
     private LocalDate specificTime;
 
+    /**
+     * Default constructor
+     */
     public Task() {
 
     }
 
+    /**
+     * Constructor for Task by passing taskName, type and time. The reason why I customize TaskException is that I
+     * don't want Task be created successfully if there's an illegal input. Once the parameters is invalid, I hope
+     * this constructor would throw a TaskException to inform above method that there's an error and print out the reason
+     * by using Constant.formOutputBySingleString
+     * @param taskName name of the task
+     * @param type type of the task
+     * @param specificTime time for task stretch information, only valid while type is event/deadline
+     * @throws TaskException Once the taskName/time format is invalid, exception would be thrown
+     */
     public Task(String taskName, TaskTypeEnum type, String specificTime) throws TaskException {
         if (taskName.length() == 0) {
             throw new TaskException("☹ OOPS!!! The description of a todo cannot be empty.");
@@ -38,10 +51,17 @@ public class Task {
         }
     }
 
+    /**
+     * Mark Boolean done as true. The reason why we don't use setter is that there's no markTaskAsUnDone requirement.
+     */
     public void markTaskAsDone() {
         this.done = true;
     }
 
+    /**
+     * Similar with toString(). However, I want to customize it by myself, so I decide not to use toString() name.
+     * @return task customize output string.
+     */
     public String toOutput() {
         String mark = (done) ? "✓" : "✗";
         String time;
@@ -62,6 +82,11 @@ public class Task {
         return "[" + typeCharacter + "][" + mark + "] " + taskName + time;
     }
 
+    /**
+     * Similar with toOutput. However, the string would be saved in file, which is used while application re-active.
+     * It should be same as the command format which user should type.
+     * @return task customize output string.
+     */
     public String toFileOutput() {
         String mark = (done) ? "1" : "0";
         String time;

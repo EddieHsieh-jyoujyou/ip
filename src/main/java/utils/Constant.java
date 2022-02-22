@@ -45,10 +45,20 @@ public class Constant {
     public final static String ERROR_WHILE_WRITE_TO_FILE =
             formOutputBySingleString("Failed to write file.");
 
+    /**
+     * If the sentence which was printed only has one string, this constructor would form the result string.
+     * @param str one String sentence
+     * @return result string.
+     */
     public static String formOutputBySingleString(String str) {
         return HORIZONTAL_LINE + TAB + BLANK + str + BREAK + HORIZONTAL_LINE;
     }
 
+    /**
+     * If there's many sentences need to be printed, this constructor would for the result string.
+     * @param list a String Array for sentences need to be printed.
+     * @return result string
+     */
     public static String formOutputByList(List<String> list) {
         String resultString = HORIZONTAL_LINE;
         for (String str: list) {
@@ -58,6 +68,12 @@ public class Constant {
         return resultString;
     }
 
+    /**
+     * Basically is for "list" command in DukeCommandHandler.listHandler -> DukeChatBot.showListOfChatBotContent.
+     * Compare to formOutputByList, it would generate task string with label in front of it.
+     * @param list a String Array for sentences need to be printed. Actually is DukeChatBot.listOfChatBotContent
+     * @return result string
+     */
     public static String formOutputByListWithLabel(List<Task> list) {
         String resultString = HORIZONTAL_LINE + TAB + BLANK + STRING_SHOW_LIST + BREAK;
         int count = 1;

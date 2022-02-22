@@ -13,6 +13,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * Main logic about managing task. This class own a list of task and is also responsible for storing task into local
+ * storage.
+ */
 public class DukeChatBot {
     private final List<Task> listOfChatBotContent;
     private Path dukeChatRecordPath;
@@ -98,11 +102,22 @@ public class DukeChatBot {
 
     }
 
+    /**
+     * The constructor of DukeChatBot. Task list would be initialized here, besides, task information in
+     * root/data/duke.txt would be read in this step.
+     */
     public DukeChatBot() {
         listOfChatBotContent = new ArrayList<>();
         loadTaskList();
     }
 
+    /**
+     *
+     * @param input task name, sometimes it would have a space in front of it, need to be removed.
+     * @param type enum, used to identify task type
+     * @param specificTime only event/deadline would have time information, it would be parsed by using Task object,
+     *                     so we don't need to consider it now.
+     */
     public void addStringToList(String input, TaskTypeEnum type, String specificTime) {
         String taskName;
         if (input.startsWith(" ")) {
@@ -127,6 +142,11 @@ public class DukeChatBot {
         saveTasksToFile();
     }
 
+    /**
+     * Delete task form task list with specific index number, should print error message if index number is greater than
+     * list size.
+     * @param index specific index for deleting task from list.
+     */
     public void deleteTaskFromListWithIndex(int index) {
         if (index > listOfChatBotContent.size()) {
             System.out.println(Constant.ERROR_WHILE_DELETE_TASK_FROM_LIST);
@@ -140,6 +160,10 @@ public class DukeChatBot {
         saveTasksToFile();
     }
 
+    /**
+     * Mark specific task as done.
+     * @param index specific index for marking.
+     */
     public void markTaskAsDone(Integer index) {
         if (index > listOfChatBotContent.size()) {
             System.out.println(Constant.ERROR_WHILE_MARK_TASK_AS_DONE);
@@ -151,6 +175,9 @@ public class DukeChatBot {
                 .asList(Constant.STRING_MARK_AS_DONE, "  " + task.toOutput())));
     }
 
+    /**
+     * Displaying task information which locating in task list.
+     */
     public void showListOfChatBotContent() {
         System.out.println(Constant.formOutputByListWithLabel(listOfChatBotContent));
     }
