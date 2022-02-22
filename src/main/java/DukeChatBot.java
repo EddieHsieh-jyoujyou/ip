@@ -1,3 +1,8 @@
+import model.Task;
+import model.TaskException;
+import model.TaskTypeEnum;
+import utils.Constant;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -11,11 +16,6 @@ import java.util.*;
 public class DukeChatBot {
     private final List<Task> listOfChatBotContent;
     private Path dukeChatRecordPath;
-
-    public DukeChatBot() {
-        listOfChatBotContent = new ArrayList<>();
-        loadTaskList();
-    }
 
     private void loadTaskList() {
         Path root = FileSystems.getDefault().getPath("").toAbsolutePath();
@@ -40,7 +40,7 @@ public class DukeChatBot {
                             task.markTaskAsDone();
                         }
                         listOfChatBotContent.add(task);
-                    } catch (RuntimeException e) {
+                    } catch (TaskException e) {
                         e.printStackTrace();
                     }
                 } else if (Objects.equals(taskString[0], Constant.SINGLE_CHARACTER_TASK_TYPE_DEADLINE)) {
@@ -50,7 +50,7 @@ public class DukeChatBot {
                             task.markTaskAsDone();
                         }
                         listOfChatBotContent.add(task);
-                    } catch (RuntimeException e) {
+                    } catch (TaskException e) {
                         e.printStackTrace();
                     }
                 } else if (Objects.equals(taskString[0], Constant.SINGLE_CHARACTER_TASK_TYPE_EVENT)) {
@@ -60,7 +60,7 @@ public class DukeChatBot {
                             task.markTaskAsDone();
                         }
                         listOfChatBotContent.add(task);
-                    } catch (RuntimeException e) {
+                    } catch (TaskException e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -98,6 +98,11 @@ public class DukeChatBot {
 
     }
 
+    public DukeChatBot() {
+        listOfChatBotContent = new ArrayList<>();
+        loadTaskList();
+    }
+
     public void addStringToList(String input, TaskTypeEnum type, String specificTime) {
         String taskName;
         if (input.startsWith(" ")) {
@@ -110,7 +115,7 @@ public class DukeChatBot {
         try {
             task = new Task(taskName, type, specificTime);
             listOfChatBotContent.add(task);
-        } catch (RuntimeException e) {
+        } catch (TaskException e) {
             System.out.println(Constant.formOutputBySingleString(e.getMessage()));
             return;
         }

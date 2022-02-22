@@ -1,2 +1,7 @@
-package model;public class TaskException {
+package model;
+
+public class TaskException extends Exception {
+    public TaskException(String reason) {
+        super(reason);
+    }
 }
