@@ -1,20 +1,18 @@
-import java.util.Objects;
-
 public class Task {
     private String taskName;
     private Boolean done;
-    private String type;
+    private TaskTypeEnum type;
     private String specificTime;
 
     public Task() {
 
     }
 
-    public Task(String taskName, String type, String specificTime) throws RuntimeException {
+    public Task(String taskName, TaskTypeEnum type, String specificTime) throws RuntimeException {
         if (taskName.length() == 0) {
-            throw new RuntimeException("Task name should not be empty.");
+            throw new RuntimeException("☹ OOPS!!! The description of a todo cannot be empty.");
         }
-        if ((Objects.equals(type, "D") || Objects.equals(type, "E")) && specificTime.length() == 0) {
+        if ((type == TaskTypeEnum.DEADLINE || type == TaskTypeEnum.EVENT) && specificTime.length() == 0) {
             throw new RuntimeException("Specific time should not be empty.");
         }
         this.taskName = taskName;
@@ -38,13 +36,20 @@ public class Task {
     public String toOutput() {
         String mark = (done) ? "✓" : "✗";
         String time;
-        if (Objects.equals(type, "D")) {
-            time = "(by: " + specificTime + ")";
-        } else if (Objects.equals(type, "E")) {
-            time = "(at: " + specificTime + ")";
-        } else {
-            time = specificTime;
+        String typeCharacter;
+        switch (type) {
+            case DEADLINE:
+                time = " (by: " + specificTime + ")";
+                typeCharacter = "D";
+                break;
+            case EVENT:
+                time = " (at: " + specificTime + ")";
+                typeCharacter = "E";
+                break;
+            default:
+                time = specificTime;
+                typeCharacter = "T";
         }
-        return "[" + type + "][" + mark + "] " + taskName + " " + time;
+        return "[" + typeCharacter + "][" + mark + "] " + taskName + time;
     }
 }
