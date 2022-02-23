@@ -38,7 +38,7 @@ public class DukeCommandHandler {
      * @param input command
      */
     public void deadlineHandler(String input) {
-        String [] task = input.replace("deadline ", "").split(" /by ");
+        String [] task = input.replace("deadline", "").split(" /by ");
         if (task.length != 2) {
             System.out.println(Constant.ERROR_COMMAND);
             return;
@@ -71,8 +71,14 @@ public class DukeCommandHandler {
      * @param input command
      */
     public void deleteHandler(String input) {
-        int index = Integer.parseInt(input.split(" ")[1]);
-        dukeChatBot.deleteTaskFromListWithIndex(index);
+        Pattern pattern = Pattern.compile("delete [1-9][0-9]*");
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.matches()) {
+            int index = Integer.parseInt(input.split(" ")[1]);
+            dukeChatBot.deleteTaskFromListWithIndex(index);
+            return;
+        }
+        System.out.println(Constant.ERROR_COMMAND);
     }
 
     /**
@@ -85,7 +91,9 @@ public class DukeCommandHandler {
         if (matcher.matches()) {
             Integer taskNumber = Integer.parseInt(input.replace("done ", ""));
             dukeChatBot.markTaskAsDone(taskNumber);
+            return;
         }
+        System.out.println(Constant.ERROR_COMMAND);
     }
 
     /**

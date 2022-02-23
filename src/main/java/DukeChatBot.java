@@ -79,11 +79,20 @@ public class DukeChatBot {
     }
 
     private Boolean createFileDirectoryIfNotExist(Path path) {
+        Path dirPath = path.getParent();
+        if (!Files.exists(dirPath)) {
+            try {
+                Files.createDirectory(dirPath);
+            } catch (IOException e) {
+                System.out.println(Constant.ERROR_WHILE_CREATE_FILE_DIR);
+                return false;
+            }
+        }
         if (!Files.exists(path)) {
             try {
                 Files.createFile(path);
             } catch (IOException e) {
-                System.out.println(Constant.ERROR_WHILE_CREATE_FILE_DIR);
+                System.out.println(Constant.ERROR_WHILE_CREATE_FILE);
                 return false;
             }
         }
@@ -104,11 +113,8 @@ public class DukeChatBot {
     }
 
     private String removeSpaceInFrontOfInput(String input) {
-        if (input.startsWith(" ")) {
-            return input.replaceFirst(" ", "");
-        } else {
-            return input;
-        }
+        return input.replaceFirst("\\s+", "");
+
     }
 
     /**
@@ -152,7 +158,7 @@ public class DukeChatBot {
      * @param index specific index for deleting task from list.
      */
     public void deleteTaskFromListWithIndex(int index) {
-        if (index > listOfChatBotContent.size()) {
+        if (index > listOfChatBotContent.size() || index <= 0) {
             System.out.println(Constant.ERROR_WHILE_DELETE_TASK_FROM_LIST);
             return;
         }
@@ -169,7 +175,7 @@ public class DukeChatBot {
      * @param index specific index for marking.
      */
     public void markTaskAsDone(Integer index) {
-        if (index > listOfChatBotContent.size()) {
+        if (index > listOfChatBotContent.size() || index <= 0) {
             System.out.println(Constant.ERROR_WHILE_MARK_TASK_AS_DONE);
             return;
         }
@@ -183,11 +189,11 @@ public class DukeChatBot {
      * Displaying task information which locating in task list.
      */
     public void showListOfChatBotContent() {
-        System.out.println(Constant.formOutputByListWithLabel(listOfChatBotContent));
+        System.out.println(Constant.formOutputByListWithLabel(listOfChatBotContent, Constant.STRING_SHOW_LIST));
     }
 
     /**
-     * Using keyword to filter list of task by task name.
+     * Using keyword to filter list of task by task name. Use stream() in this method.
      * @param keyword keyword to filter task list
      */
     public void showListOfChatBotContentWithKeyWord(String keyword) {
@@ -198,7 +204,8 @@ public class DukeChatBot {
         }
         System.out.println(Constant.formOutputByListWithLabel(
                 listOfChatBotContent.stream()
-                        .filter(task -> task.getTaskName().contains(taskName)).collect(Collectors.toList())
+                        .filter(task -> task.getTaskName().contains(taskName)).collect(Collectors.toList()),
+                Constant.STRING_SHOW_MATCHED_LIST
         ));
     }
 }

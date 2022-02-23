@@ -26,12 +26,16 @@ public class Constant {
 
     public final static String GREETINGS = formOutputByList(Arrays
             .asList("Hello! I'm Duke", "What can I do for you?"));
-
     public final static String GOODBYE = formOutputBySingleString("Bye. Hope to see you again soon!");
 
     public final static String STRING_SHOW_LIST = "Here are the tasks in your list:";
+    public final static String STRING_SHOW_MATCHED_LIST = "Here are the matching tasks in your list:";
     public final static String STRING_MARK_AS_DONE = "Nice! I've marked this task as done:";
     public final static String STRING_DELETE_SUCCESS = "Noted. I've removed this task:";
+
+    public final static String STRING_ERROR_EMPTY_TASK_NAME = "☹ OOPS!!! The description of a todo cannot be empty.";
+    public final static String STRING_ERROR_INVALID_TIME_FORMAT = "Time format invalid. Format should be yyyy-MM-dd.";
+    public final static String STRING_ERROR_RUNTIME_FAILURE_PARSING_DATE = "Runtime exception while parsing date.";
 
     public final static String ERROR_COMMAND =
             formOutputBySingleString("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
@@ -42,6 +46,8 @@ public class Constant {
     public final static String ERROR_WHILE_LOAD_TASK_LIST_FROM_FILE =
             formOutputBySingleString("Load task list from file failed.");
     public final static String ERROR_WHILE_CREATE_FILE_DIR =
+            formOutputBySingleString("Failed to create file directory.");
+    public final static String ERROR_WHILE_CREATE_FILE =
             formOutputBySingleString("Failed to create file");
     public final static String ERROR_WHILE_WRITE_TO_FILE =
             formOutputBySingleString("Failed to write file.");
@@ -77,8 +83,8 @@ public class Constant {
      * @param list a String Array for sentences need to be printed. Actually is DukeChatBot.listOfChatBotContent
      * @return result string
      */
-    public static String formOutputByListWithLabel(List<Task> list) {
-        String resultString = HORIZONTAL_LINE + TAB + BLANK + STRING_SHOW_LIST + BREAK;
+    public static String formOutputByListWithLabel(List<Task> list, String description) {
+        String resultString = HORIZONTAL_LINE + TAB + BLANK + description + BREAK;
         int count = 1;
         for (Task task: list) {
             resultString += TAB + BLANK + count + "." + task.toOutput() + BREAK;

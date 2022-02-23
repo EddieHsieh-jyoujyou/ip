@@ -31,11 +31,9 @@ public class Task {
      */
     public Task(String taskName, TaskTypeEnum type, String specificTime) throws TaskException {
         if (taskName.length() == 0) {
-            throw new TaskException("☹ OOPS!!! The description of a todo cannot be empty.");
+            throw new TaskException(Constant.STRING_ERROR_EMPTY_TASK_NAME);
         }
-        if ((type == TaskTypeEnum.DEADLINE || type == TaskTypeEnum.EVENT) && specificTime.length() == 0) {
-            throw new TaskException("Specific time should not be empty.");
-        }
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate time;
         try {
@@ -45,9 +43,9 @@ public class Task {
             this.type = type;
             this.specificTime = time;
         } catch (DateTimeParseException e) {
-            throw new TaskException("Time format invalid. Format should be yyyy-MM-dd");
+            throw new TaskException(Constant.STRING_ERROR_INVALID_TIME_FORMAT);
         } catch (RuntimeException e) {
-            throw new TaskException("Runtime exception while parsing date.");
+            throw new TaskException(Constant.STRING_ERROR_RUNTIME_FAILURE_PARSING_DATE);
         }
     }
 
@@ -63,7 +61,7 @@ public class Task {
      * @return task customize output string.
      */
     public String toOutput() {
-        String mark = (done) ? "✓" : "✗";
+        String mark = (done) ? "V" : "X";
         String time;
         String typeCharacter;
         switch (type) {
