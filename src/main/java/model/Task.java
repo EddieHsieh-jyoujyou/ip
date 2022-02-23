@@ -45,7 +45,7 @@ public class Task {
             this.type = type;
             this.specificTime = time;
         } catch (DateTimeParseException e) {
-            throw new TaskException("Time format invalid");
+            throw new TaskException("Time format invalid. Format should be yyyy-MM-dd");
         } catch (RuntimeException e) {
             throw new TaskException("Runtime exception while parsing date.");
         }
@@ -105,5 +105,13 @@ public class Task {
                 typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_TODO;
         }
         return typeCharacter + " | " + mark + " | " + taskName + time + "\n";
+    }
+
+    /**
+     * Getter for task name.
+     * @return task name
+     */
+    public String getTaskName() {
+        return taskName;
     }
 }

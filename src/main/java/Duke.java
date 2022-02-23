@@ -33,6 +33,8 @@ public class Duke {
                 handler.deleteHandler(input);
             } else if (input.startsWith(Constant.COMMAND_DONE)) {
                 handler.doneHandler(input);
+            } else if(input.startsWith(Constant.COMMAND_FIND)) {
+                handler.findHandler(input);
             } else {
                 handler.unknownHandler(input);
             }

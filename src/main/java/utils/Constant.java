@@ -13,6 +13,7 @@ public class Constant {
     public final static String COMMAND_LIST = "list";
     public final static String COMMAND_DELETE = "delete";
     public final static String COMMAND_DONE = "done";
+    public final static String COMMAND_FIND = "find";
 
     public final static String SINGLE_CHARACTER_TASK_TYPE_TODO = "T";
     public final static String SINGLE_CHARACTER_TASK_TYPE_DEADLINE = "D";
@@ -44,6 +45,8 @@ public class Constant {
             formOutputBySingleString("Failed to create file");
     public final static String ERROR_WHILE_WRITE_TO_FILE =
             formOutputBySingleString("Failed to write file.");
+    public final static String ERROR_WHILE_FIND_TASK_WITH_EMPTY_KEYWORD =
+            formOutputBySingleString("Keyword could not be empty.");
 
     /**
      * If the sentence which was printed only has one string, this constructor would form the result string.

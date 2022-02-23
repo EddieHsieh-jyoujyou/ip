@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Main logic about managing task. This class own a list of task and is also responsible for storing task into local
@@ -102,6 +103,14 @@ public class DukeChatBot {
 
     }
 
+    private String removeSpaceInFrontOfInput(String input) {
+        if (input.startsWith(" ")) {
+            return input.replaceFirst(" ", "");
+        } else {
+            return input;
+        }
+    }
+
     /**
      * The constructor of DukeChatBot. Task list would be initialized here, besides, task information in
      * root/data/duke.txt would be read in this step.
@@ -119,12 +128,7 @@ public class DukeChatBot {
      *                     so we don't need to consider it now.
      */
     public void addStringToList(String input, TaskTypeEnum type, String specificTime) {
-        String taskName;
-        if (input.startsWith(" ")) {
-            taskName = input.replaceFirst(" ", "");
-        } else {
-            taskName = input;
-        }
+        String taskName = removeSpaceInFrontOfInput(input);
 
         Task task;
         try {
@@ -180,5 +184,21 @@ public class DukeChatBot {
      */
     public void showListOfChatBotContent() {
         System.out.println(Constant.formOutputByListWithLabel(listOfChatBotContent));
+    }
+
+    /**
+     * Using keyword to filter list of task by task name.
+     * @param keyword keyword to filter task list
+     */
+    public void showListOfChatBotContentWithKeyWord(String keyword) {
+        String taskName = removeSpaceInFrontOfInput(keyword);
+        if (Objects.equals(taskName, "")) {
+            System.out.println(Constant.ERROR_WHILE_FIND_TASK_WITH_EMPTY_KEYWORD);
+            return;
+        }
+        System.out.println(Constant.formOutputByListWithLabel(
+                listOfChatBotContent.stream()
+                        .filter(task -> task.getTaskName().contains(taskName)).collect(Collectors.toList())
+        ));
     }
 }

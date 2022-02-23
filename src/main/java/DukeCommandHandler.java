@@ -89,6 +89,15 @@ public class DukeCommandHandler {
     }
 
     /**
+     * Find task which task name matches keyword.
+     * @param input command
+     */
+    public void findHandler(String input) {
+        String taskName = input.replace(Constant.COMMAND_FIND , "");
+        dukeChatBot.showListOfChatBotContentWithKeyWord(taskName);
+    }
+
+    /**
      * Print unknown error message.
      * @param input command, I want to keep it because this should be recorded by application.
      *              However, we don't have log system in this project yet.
