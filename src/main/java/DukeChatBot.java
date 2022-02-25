@@ -113,6 +113,9 @@ public class DukeChatBot {
     }
 
     private String removeSpaceInFrontOfInput(String input) {
+        if (!input.startsWith(" ")) {
+            return input;
+        }
         return input.replaceFirst("\\s+", "");
 
     }
@@ -207,5 +210,13 @@ public class DukeChatBot {
                         .filter(task -> task.getTaskName().contains(taskName)).collect(Collectors.toList()),
                 Constant.STRING_SHOW_MATCHED_LIST
         ));
+    }
+
+    /**
+     * Getter for task list, only used in test.
+     * @return task list
+     */
+    public List<Task> getListOfChatBotContent() {
+        return listOfChatBotContent;
     }
 }

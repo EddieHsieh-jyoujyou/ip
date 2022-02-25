@@ -8,7 +8,7 @@ import java.time.format.DateTimeParseException;
 
 public class Task {
     private String taskName;
-    private Boolean done;
+    private Boolean isDone;
     private TaskTypeEnum type;
     private LocalDate specificTime;
 
@@ -35,13 +35,11 @@ public class Task {
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate time;
         try {
-            time = (type == TaskTypeEnum.TODO) ? null : LocalDate.parse(specificTime, formatter);
             this.taskName = taskName;
-            this.done = false;
+            this.isDone = false;
             this.type = type;
-            this.specificTime = time;
+            this.specificTime = (type == TaskTypeEnum.TODO) ? null : LocalDate.parse(specificTime, formatter);
         } catch (DateTimeParseException e) {
             throw new TaskException(Constant.STRING_ERROR_INVALID_TIME_FORMAT);
         } catch (RuntimeException e) {
@@ -53,7 +51,7 @@ public class Task {
      * Mark Boolean done as true. The reason why we don't use setter is that there's no markTaskAsUnDone requirement.
      */
     public void markTaskAsDone() {
-        this.done = true;
+        this.isDone = true;
     }
 
     /**
@@ -61,7 +59,7 @@ public class Task {
      * @return task customize output string.
      */
     public String toOutput() {
-        String mark = (done) ? "V" : "X";
+        String mark = (isDone) ? "V" : "X";
         String time;
         String typeCharacter;
         switch (type) {
@@ -86,7 +84,7 @@ public class Task {
      * @return task customize output string.
      */
     public String toFileOutput() {
-        String mark = (done) ? "1" : "0";
+        String mark = (isDone) ? "1" : "0";
         String time;
         String typeCharacter;
         switch (type) {
@@ -111,5 +109,17 @@ public class Task {
      */
     public String getTaskName() {
         return taskName;
+    }
+
+    public Boolean getIsDone() {
+        return isDone;
+    }
+
+    public TaskTypeEnum getType() {
+        return type;
+    }
+
+    public LocalDate getSpecificTime() {
+        return specificTime;
     }
 }
