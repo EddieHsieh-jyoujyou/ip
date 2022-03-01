@@ -1,0 +1,45 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR_T4
+skinparam classBackgroundColor LOGIC_COLOR
+
+class Duke
+interface Bot INTERFACE_COLOR
+class DukeChatBot
+
+
+package Logic {
+
+package command {
+class XYZCommand
+class "{abstract}\nCommand" as Command ABSTRACT_CLASS
+}
+
+package parser {
+class XYZCommandParser
+interface Parser INTERFACE_COLOR
+class DukeParser
+}
+
+package Model{
+interface Model INTERFACE_COLOR
+class DukeModel
+}
+
+Duke .right.> Bot
+Bot <|.down. DukeChatBot
+DukeChatBot -down-> DukeParser
+DukeChatBot -left-> Model
+
+DukeModel .right.|> Model
+
+DukeParser .down.> XYZCommandParser
+DukeParser .right.> Command
+
+XYZCommandParser .left.|> Parser
+XYZCommandParser .right.> XYZCommand
+XYZCommand -up-|> Command
+
+
+@enduml

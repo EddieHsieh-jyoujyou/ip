@@ -1,9 +1,10 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import model.Task;
-import model.TaskTypeEnum;
-import utils.Constant;
+import temp.Task;
+import temp.TaskTypeEnum;
+import commons.Constant;
+import temp.ChatBot;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -12,14 +13,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class DukeChatBotTest {
-    private DukeChatBot dukeChatBot;
+public class ChatBotTest {
+    private ChatBot dukeChatBot;
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
     @BeforeEach
     public void setup() {
-        dukeChatBot = new DukeChatBot();
+        dukeChatBot = new ChatBot();
         System.setOut(new PrintStream(outputStream));
     }
 
@@ -30,7 +31,7 @@ public class DukeChatBotTest {
     }
 
     /**
-     * Basically all test about addStringToList should be tested in DukeCommandHandler.
+     * Basically all test about addStringToList should be tested in temp.DukeCommandHandler.
      */
     @Test
     public void testAddStringToList_success() {
@@ -56,7 +57,7 @@ public class DukeChatBotTest {
     }
 
     /**
-     * This case should never happen because DukeCommandHandler won't pass time parameter to DukeChatBot, however, this
+     * This case should never happen because temp.DukeCommandHandler won't pass time parameter to DukeChatBot, however, this
      * case is handled in Task Constructor, while constructing Task with NOT_EMPTY value, Task constructor would ignore
      * this value and set Time as null.
      */
@@ -71,7 +72,7 @@ public class DukeChatBotTest {
     }
 
     /**
-     * All testing about deleteTaskFromListWithIndex should be tested in DukeCommandHandler, except the case that
+     * All testing about deleteTaskFromListWithIndex should be tested in temp.DukeCommandHandler, except the case that
      * index equals to zero/index is greater than list size.
      */
     @Test

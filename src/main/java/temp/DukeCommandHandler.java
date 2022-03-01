@@ -1,5 +1,6 @@
-import model.TaskTypeEnum;
-import utils.Constant;
+package temp;
+
+import commons.Constant;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,10 +12,10 @@ import java.util.regex.Pattern;
  */
 public class DukeCommandHandler {
     
-    private final DukeChatBot dukeChatBot;
+    private final ChatBot dukeChatBot;
     
     public DukeCommandHandler() {
-        dukeChatBot = new DukeChatBot();
+        dukeChatBot = new ChatBot();
     }
 
     /**

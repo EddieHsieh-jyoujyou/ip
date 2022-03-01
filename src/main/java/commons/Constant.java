@@ -1,6 +1,6 @@
-package utils;
+package commons;
 
-import model.Task;
+import temp.Task;
 
 import java.util.Arrays;
 import java.util.List;
@@ -78,7 +78,7 @@ public class Constant {
     }
 
     /**
-     * Basically is for "list" command in DukeCommandHandler.listHandler -> DukeChatBot.showListOfChatBotContent.
+     * Basically is for "list" command in temp.DukeCommandHandler.listHandler -> DukeChatBot.showListOfChatBotContent.
      * Compare to formOutputByList, it would generate task string with label in front of it.
      * @param list a String Array for sentences need to be printed. Actually is DukeChatBot.listOfChatBotContent
      * @return result string

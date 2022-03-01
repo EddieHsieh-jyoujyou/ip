@@ -1,6 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import utils.Constant;
+import commons.Constant;
+import temp.DukeCommandHandler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
