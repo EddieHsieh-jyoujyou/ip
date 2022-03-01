@@ -11,6 +11,12 @@
  * D: dependency inversion principle
  */
 public class Duke {
+
+    /**
+     * Entry point of Duke App.
+     *
+     * @param args should be empty.
+     */
     public static void main(String[] args) {
 
         Bot dukeChatBot = new DukeChatBot();

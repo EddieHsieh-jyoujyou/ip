@@ -5,14 +5,20 @@ import logic.command.ByeCommand;
 import logic.command.Command;
 import logic.parser.DukeParser;
 import logic.parser.exceptions.ParseException;
-import model.Model;
 import model.DukeModel;
+import model.Model;
 
+/**
+ * Main Logic Bot of the Duke App.
+ */
 public class DukeChatBot implements Bot {
     private Boolean isActive;
     private final DukeParser dukeParser;
     private final Model model;
 
+    /**
+     * Constructs a {@code DukeChatBot}.
+     */
     public DukeChatBot() {
         this.isActive = false;
         this.dukeParser = new DukeParser();

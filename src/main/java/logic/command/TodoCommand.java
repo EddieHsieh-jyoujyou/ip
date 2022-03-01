@@ -4,7 +4,7 @@ import commons.Constant;
 import commons.util.io.OutputInterface;
 import model.Model;
 
-public class TodoCommand extends Command{
+public class TodoCommand extends Command {
     public static final String COMMAND_KEYWORD = "todo";
 
     @Override
