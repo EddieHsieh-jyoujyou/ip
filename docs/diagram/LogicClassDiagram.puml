@@ -8,31 +8,44 @@ class Duke
 interface Bot INTERFACE_COLOR
 class DukeChatBot
 
+package logic {
 
-package Logic {
+    package command {
+        class XYZCommand
+        class "{abstract}\nCommand" as Command ABSTRACT_CLASS
+    }
 
-package command {
-class XYZCommand
-class "{abstract}\nCommand" as Command ABSTRACT_CLASS
+    package parser {
+        class XYZCommandParser
+        interface Parser INTERFACE_COLOR
+        class DukeParser
+    }
+
 }
 
-package parser {
-class XYZCommandParser
-interface Parser INTERFACE_COLOR
-class DukeParser
+package storage {
+    interface Storage INTERFACE_COLOR
+    class DukeStorage
 }
 
-package Model{
-interface Model INTERFACE_COLOR
-class DukeModel
+package model{
+    interface TaskList INTERFACE_COLOR
+    class DukeTaskList
 }
+
+
+
+
 
 Duke .right.> Bot
-Bot <|.down. DukeChatBot
+Bot <|.right. DukeChatBot
 DukeChatBot -down-> DukeParser
-DukeChatBot -left-> Model
+DukeChatBot -right-> TaskList
+DukeChatBot --> Storage
 
-DukeModel .right.|> Model
+DukeTaskList <|.left. TaskList
+
+DukeStorage <|.right. Storage
 
 DukeParser .down.> XYZCommandParser
 DukeParser .right.> Command

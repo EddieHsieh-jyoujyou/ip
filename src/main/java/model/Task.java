@@ -1,23 +1,19 @@
-package temp;
+package model;
 
 import commons.Constant;
+import commons.util.parser.ParseUtil;
+import logic.parser.exceptions.ParseException;
+import model.exceptions.TaskException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Task {
-    private String taskName;
+    private final String taskName;
     private Boolean isDone;
-    private TaskTypeEnum type;
-    private LocalDate specificTime;
-
-    /**
-     * Default constructor
-     */
-    public Task() {
-
-    }
+    private final TaskTypeEnum type;
+    private final LocalDate specificTime;
 
     /**
      * Constructor for Task by passing taskName, type and time. The reason why I customize TaskException is that I
@@ -29,17 +25,16 @@ public class Task {
      * @param specificTime time for task stretch information, only valid while type is event/deadline
      * @throws TaskException Once the taskName/time format is invalid, exception would be thrown
      */
-    public Task(String taskName, TaskTypeEnum type, String specificTime) throws TaskException {
+    public Task(String taskName, TaskTypeEnum type, LocalDate specificTime) throws TaskException {
         if (taskName.length() == 0) {
             throw new TaskException(Constant.STRING_ERROR_EMPTY_TASK_NAME);
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
             this.taskName = taskName;
             this.isDone = false;
             this.type = type;
-            this.specificTime = (type == TaskTypeEnum.TODO) ? null : LocalDate.parse(specificTime, formatter);
+            this.specificTime = (type == TaskTypeEnum.TODO) ? null : specificTime;
         } catch (DateTimeParseException e) {
             throw new TaskException(Constant.STRING_ERROR_INVALID_TIME_FORMAT);
         } catch (RuntimeException e) {
@@ -58,13 +53,13 @@ public class Task {
      * Similar with toString(). However, I want to customize it by myself, so I decide not to use toString() name.
      * @return task customize output string.
      */
-    public String toOutput() {
+    public String toOutput() throws ParseException {
         String mark = (isDone) ? "V" : "X";
         String time;
         String typeCharacter;
         switch (type) {
             case DEADLINE:
-                time = " (by: " + specificTime.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")";
+                time = " (by: " + ParseUtil.parseLocalDateToString(specificTime) + ")";
                 typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_DEADLINE;
                 break;
             case EVENT:

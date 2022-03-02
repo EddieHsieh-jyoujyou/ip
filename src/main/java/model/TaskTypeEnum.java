@@ -1,4 +1,4 @@
-package temp;
+package model;
 
 /**
  * For Task.type.

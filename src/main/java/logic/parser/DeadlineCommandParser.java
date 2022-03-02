@@ -1,11 +1,26 @@
 package logic.parser;
 
-import logic.command.DeadlineCommand;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class DeadlineCommandParser implements Parser {
+import commons.util.parser.ParseUtil;
+import logic.command.DeadlineCommand;
+import logic.parser.exceptions.ParseException;
+
+public class DeadlineCommandParser implements Parser<DeadlineCommand> {
+    private final static Pattern DEADLINE_COMMAND_FORMAT = Pattern.compile("(?<task>.*)( /by )(?<date>.*)");
 
     @Override
-    public DeadlineCommand parse(String arguments) {
-        return new DeadlineCommand();
+    public DeadlineCommand parse(String arguments) throws ParseException {
+        final Matcher matcher = DEADLINE_COMMAND_FORMAT.matcher(arguments.trim());
+
+        if (!matcher.matches()) {
+            throw new ParseException("Error occur in DeadlineCommandParser");
+        }
+
+        final String taskName = matcher.group("task");
+        final String date = matcher.group("date");
+
+        return new DeadlineCommand(taskName,  ParseUtil.parseStringToLocalDate(date));
     }
 }

@@ -1,4 +1,4 @@
-package temp;
+package model.exceptions;
 
 /**
  * Customize exception for detecting whether there's exception while construct Task.

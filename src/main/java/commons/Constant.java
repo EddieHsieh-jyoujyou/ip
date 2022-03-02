@@ -1,19 +1,12 @@
 package commons;
 
-import temp.Task;
+import logic.parser.exceptions.ParseException;
+import model.Task;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class Constant {
-    public final static String COMMAND_BYE = "bye";
-    public final static String COMMAND_TODO = "todo";
-    public final static String COMMAND_DEADLINE = "deadline";
-    public final static String COMMAND_EVENT = "event";
-    public final static String COMMAND_LIST = "list";
-    public final static String COMMAND_DELETE = "delete";
-    public final static String COMMAND_DONE = "done";
-    public final static String COMMAND_FIND = "find";
 
     public final static String SINGLE_CHARACTER_TASK_TYPE_TODO = "T";
     public final static String SINGLE_CHARACTER_TASK_TYPE_DEADLINE = "D";
@@ -83,7 +76,7 @@ public class Constant {
      * @param list a String Array for sentences need to be printed. Actually is DukeChatBot.listOfChatBotContent
      * @return result string
      */
-    public static String formOutputByListWithLabel(List<Task> list, String description) {
+    public static String formOutputByListWithLabel(List<Task> list, String description) throws ParseException {
         String resultString = HORIZONTAL_LINE + TAB + BLANK + description + BREAK;
         int count = 1;
         for (Task task: list) {
