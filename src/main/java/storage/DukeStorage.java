@@ -22,6 +22,12 @@ import model.exceptions.TaskException;
 public class DukeStorage implements Storage {
     private final Path path;
 
+    /**
+     * Constructor of DukeStorage.
+     * Will create file for storage while object is constructed.
+     *
+     * @throws IOException create file failed.
+     */
     public DukeStorage() throws IOException {
         this.path = Paths.get(
                 FileSystems.getDefault().getPath("").toAbsolutePath().toString(),

@@ -1,13 +1,13 @@
 package model;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import commons.Constant;
 import commons.util.parser.ParseUtil;
 import logic.parser.exceptions.ParseException;
 import model.exceptions.TaskException;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class Task {
     private final String taskName;
@@ -18,8 +18,8 @@ public class Task {
     /**
      * Constructor for Task by passing taskName, type and time. The reason why I customize TaskException is that I
      * don't want Task be created successfully if there's an illegal input. Once the parameters is invalid, I hope
-     * this constructor would throw a TaskException to inform above method that there's an error and print out the reason
-     * by using Constant.formOutputBySingleString
+     * this constructor would throw a TaskException to inform above method that there's an error and print out
+     * the reason by using Constant.formOutputBySingleString
      * @param taskName name of the task
      * @param type type of the task
      * @param specificTime time for task stretch information, only valid while type is event/deadline
@@ -58,17 +58,17 @@ public class Task {
         String time;
         String typeCharacter;
         switch (type) {
-            case DEADLINE:
-                time = " (by: " + ParseUtil.parseLocalDateToString(specificTime) + ")";
-                typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_DEADLINE;
-                break;
-            case EVENT:
-                time = " (at: " + specificTime.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")";
-                typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_EVENT;
-                break;
-            default:
-                time = "";
-                typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_TODO;
+        case DEADLINE:
+            time = " (by: " + ParseUtil.parseLocalDateToString(specificTime) + ")";
+            typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_DEADLINE;
+            break;
+        case EVENT:
+            time = " (at: " + specificTime.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")";
+            typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_EVENT;
+            break;
+        default:
+            time = "";
+            typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_TODO;
         }
         return "[" + typeCharacter + "][" + mark + "] " + taskName + time;
     }
@@ -83,17 +83,17 @@ public class Task {
         String time;
         String typeCharacter;
         switch (type) {
-            case DEADLINE:
-                time = " | " + specificTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_DEADLINE;
-                break;
-            case EVENT:
-                time = " | " + specificTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_EVENT;
-                break;
-            default:
-                time = "";
-                typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_TODO;
+        case DEADLINE:
+            time = " | " + specificTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_DEADLINE;
+            break;
+        case EVENT:
+            time = " | " + specificTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_EVENT;
+            break;
+        default:
+            time = "";
+            typeCharacter = Constant.SINGLE_CHARACTER_TASK_TYPE_TODO;
         }
         return typeCharacter + " | " + mark + " | " + taskName + time + "\n";
     }

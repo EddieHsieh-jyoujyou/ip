@@ -7,7 +7,7 @@ import logic.command.DeleteCommand;
 import logic.parser.exceptions.ParseException;
 
 public class DeleteCommandParser implements Parser<DeleteCommand> {
-    private final static Pattern DELETE_COMMAND_FORMAT = Pattern.compile("(?<index>[0-9]+)");
+    private static final Pattern DELETE_COMMAND_FORMAT = Pattern.compile("(?<index>[0-9]+)");
 
     @Override
     public DeleteCommand parse(String arguments) throws ParseException {

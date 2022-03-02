@@ -10,11 +10,17 @@ import model.TaskTypeEnum;
 import model.exceptions.TaskException;
 
 public class DeadlineCommand extends Command {
+    public static final String COMMAND_KEYWORD = "deadline";
+
     private final LocalDate date;
     private final String name;
 
-    public static final String COMMAND_KEYWORD = "deadline";
-
+    /**
+     * Constructor.
+     *
+     * @param name name of task
+     * @param date date of task
+     */
     public DeadlineCommand(String name, LocalDate date) {
         this.name = name;
         this.date = date;

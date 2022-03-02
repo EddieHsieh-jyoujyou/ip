@@ -2,7 +2,6 @@ package logic.command;
 
 import java.time.LocalDate;
 
-import commons.Constant;
 import commons.util.io.OutputInterface;
 import logic.parser.exceptions.ParseException;
 import model.Task;
@@ -11,11 +10,17 @@ import model.TaskTypeEnum;
 import model.exceptions.TaskException;
 
 public class EventCommand extends Command {
+    public static final String COMMAND_KEYWORD = "event";
+
     private final String name;
     private final LocalDate date;
 
-    public static final String COMMAND_KEYWORD = "event";
-
+    /**
+     * Constructor.
+     *
+     * @param name name of task
+     * @param date date of task
+     */
     public EventCommand(String name, LocalDate date) {
         this.name = name;
         this.date = date;

@@ -7,7 +7,7 @@ import logic.command.FindCommand;
 import logic.parser.exceptions.ParseException;
 
 public class FindCommandParser implements Parser<FindCommand> {
-    private final static Pattern FIND_COMMAND_FORMAT = Pattern.compile("(?<keyword>.*)");
+    private static final Pattern FIND_COMMAND_FORMAT = Pattern.compile("(?<keyword>.*)");
 
     @Override
     public FindCommand parse(String arguments) throws ParseException {

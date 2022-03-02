@@ -15,6 +15,11 @@ public class OutputInterface {
         System.out.println(str);
     }
 
+    /**
+     * Writer for adding task into task list.
+     * @param taskOutput task.output
+     * @param listSize size of task list
+     */
     public static void writer(String taskOutput, int listSize) {
 
         System.out.println(

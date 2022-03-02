@@ -7,7 +7,7 @@ import logic.command.DoneCommand;
 import logic.parser.exceptions.ParseException;
 
 public class DoneCommandParser implements Parser<DoneCommand> {
-    private final static Pattern DONE_COMMAND_FORMAT = Pattern.compile("(?<index>[0-9]+)");
+    private static final Pattern DONE_COMMAND_FORMAT = Pattern.compile("(?<index>[0-9]+)");
 
     @Override
     public DoneCommand parse(String arguments) throws ParseException {

@@ -9,8 +9,9 @@ import model.Task;
 import model.TaskList;
 
 public class DoneCommand extends Command {
-    private final int index;
     public static final String COMMAND_KEYWORD = "done";
+
+    private final int index;
 
     public DoneCommand(int index) {
         this.index = index;

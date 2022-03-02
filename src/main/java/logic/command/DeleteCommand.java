@@ -7,8 +7,9 @@ import model.Task;
 import model.TaskList;
 
 public class DeleteCommand extends Command {
-    private final int index;
     public static final String COMMAND_KEYWORD = "delete";
+
+    private final int index;
 
     public DeleteCommand(int index) {
         this.index = index;

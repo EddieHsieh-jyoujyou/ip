@@ -10,9 +10,9 @@ import model.Task;
 import model.TaskList;
 
 public class FindCommand extends Command {
-    private final String keyword;
-
     public static final String COMMAND_KEYWORD = "find";
+
+    private final String keyword;
 
     public FindCommand(String keyword) {
         this.keyword = keyword;

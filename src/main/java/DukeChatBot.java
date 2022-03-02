@@ -3,7 +3,13 @@ import java.io.IOException;
 import commons.Constant;
 import commons.util.io.InputInterface;
 import commons.util.io.OutputInterface;
-import logic.command.*;
+import logic.command.ByeCommand;
+import logic.command.Command;
+import logic.command.DeadlineCommand;
+import logic.command.DeleteCommand;
+import logic.command.DoneCommand;
+import logic.command.EventCommand;
+import logic.command.TodoCommand;
 import logic.parser.DukeParser;
 import logic.parser.exceptions.ParseException;
 import model.DukeTaskList;
@@ -63,11 +69,11 @@ public class DukeChatBot implements Bot {
                 if (command instanceof ByeCommand) {
                     powerOff();
                 }
-                if (command instanceof DeadlineCommand ||
-                        command instanceof DeleteCommand ||
-                        command instanceof DoneCommand ||
-                        command instanceof  EventCommand ||
-                        command instanceof TodoCommand
+                if (command instanceof DeadlineCommand
+                        || command instanceof DeleteCommand
+                        || command instanceof DoneCommand
+                        || command instanceof EventCommand
+                        || command instanceof TodoCommand
                 ) {
                     storage.save(list);
                 }

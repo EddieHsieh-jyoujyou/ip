@@ -7,7 +7,7 @@ import logic.command.TodoCommand;
 import logic.parser.exceptions.ParseException;
 
 public class TodoCommandParser implements Parser<TodoCommand> {
-    private final static Pattern TODO_COMMAND_FORMAT = Pattern.compile("(?<task>.*)");
+    private static final Pattern TODO_COMMAND_FORMAT = Pattern.compile("(?<task>.*)");
 
     @Override
     public TodoCommand parse(String arguments) throws ParseException {

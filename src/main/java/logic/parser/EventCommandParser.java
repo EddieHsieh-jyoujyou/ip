@@ -8,7 +8,7 @@ import logic.command.EventCommand;
 import logic.parser.exceptions.ParseException;
 
 public class EventCommandParser implements Parser<EventCommand> {
-    private final static Pattern EVENT_COMMAND_FORMAT = Pattern.compile("(?<task>.*)( /at )(?<date>.*)");
+    private static final Pattern EVENT_COMMAND_FORMAT = Pattern.compile("(?<task>.*)( /at )(?<date>.*)");
 
     @Override
     public EventCommand parse(String arguments) throws ParseException {

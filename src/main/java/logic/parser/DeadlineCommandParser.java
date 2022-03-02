@@ -8,7 +8,7 @@ import logic.command.DeadlineCommand;
 import logic.parser.exceptions.ParseException;
 
 public class DeadlineCommandParser implements Parser<DeadlineCommand> {
-    private final static Pattern DEADLINE_COMMAND_FORMAT = Pattern.compile("(?<task>.*)( /by )(?<date>.*)");
+    private static final Pattern DEADLINE_COMMAND_FORMAT = Pattern.compile("(?<task>.*)( /by )(?<date>.*)");
 
     @Override
     public DeadlineCommand parse(String arguments) throws ParseException {
@@ -21,6 +21,6 @@ public class DeadlineCommandParser implements Parser<DeadlineCommand> {
         final String taskName = matcher.group("task");
         final String date = matcher.group("date");
 
-        return new DeadlineCommand(taskName,  ParseUtil.parseStringToLocalDate(date));
+        return new DeadlineCommand(taskName, ParseUtil.parseStringToLocalDate(date));
     }
 }
