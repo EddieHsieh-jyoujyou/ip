@@ -16,16 +16,15 @@ public class OutputInterface {
     }
 
     /**
-     * Writer for adding task into task list.
-     * @param taskOutput task.output
-     * @param listSize size of task list
+     * Form output string with special format.
+     * @param taskOutput task.output()
+     * @param listSize size of list
+     * @return string
      */
-    public static void writer(String taskOutput, int listSize) {
-
-        System.out.println(
-                Constant.formOutputByList(Arrays
+    public static String formatOutputString(String taskOutput, int listSize) {
+        return Constant.formOutputByList(Arrays
                 .asList("Got it. I've added this task:",
                         "  " + taskOutput,
-                        "Now you have " + listSize + " tasks in the list.")));
+                        "Now you have " + listSize + " tasks in the list."));
     }
 }

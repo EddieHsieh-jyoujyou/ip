@@ -11,6 +11,7 @@ import logic.command.DoneCommand;
 import logic.command.EventCommand;
 import logic.command.TodoCommand;
 import logic.parser.DukeParser;
+import logic.parser.Parser;
 import logic.parser.exceptions.ParseException;
 import model.DukeTaskList;
 import model.TaskList;
@@ -23,7 +24,7 @@ import storage.Storage;
  */
 public class DukeChatBot implements Bot {
     private Boolean isActive;
-    private final DukeParser dukeParser;
+    private final Parser parser;
     private final TaskList list;
     private Storage storage;
 
@@ -31,27 +32,14 @@ public class DukeChatBot implements Bot {
      * Constructs a {@code DukeChatBot}.
      */
     protected DukeChatBot() {
-        this.isActive = false;
-        this.dukeParser = new DukeParser();
+        this.isActive = true;
+        this.parser = new DukeParser();
         this.list = new DukeTaskList();
-
-
     }
 
     @Override
     public void powerOn() {
-        this.isActive = true;
-
-        // Initialize storage
-        try {
-            this.storage = new DukeStorage();
-        } catch (IOException e) {
-            OutputInterface.writer(Constant.ERROR_WHILE_CREATE_FILE);
-            powerOff();
-        }
-        list.setTaskList(storage.read().getTaskList());
-
-        greeting();
+        init();
         start();
     }
 
@@ -60,20 +48,34 @@ public class DukeChatBot implements Bot {
         this.isActive = false;
     }
 
+    private void init() {
+        // Initialize storage
+        try {
+            this.storage = new DukeStorage();
+        } catch (IOException e) {
+            OutputInterface.writer(Constant.ERROR_WHILE_CREATE_FILE);
+            powerOff();
+        }
+        list.setTaskList(storage.read().getTaskList());
+    }
+
     private void start() {
+
+        greetings();
+
         while (isActive) {
             try {
-                Command command = dukeParser.parseCommand(InputInterface.reader());
-                command.execute(list);
+                Command command = parser.parseCommand(InputInterface.reader());
+                OutputInterface.writer(command.execute(list));
 
                 if (command instanceof ByeCommand) {
                     powerOff();
                 }
                 if (command instanceof DeadlineCommand
-                        || command instanceof DeleteCommand
-                        || command instanceof DoneCommand
-                        || command instanceof EventCommand
-                        || command instanceof TodoCommand
+                    || command instanceof DeleteCommand
+                    || command instanceof DoneCommand
+                    || command instanceof EventCommand
+                    || command instanceof TodoCommand
                 ) {
                     storage.save(list);
                 }
@@ -85,7 +87,7 @@ public class DukeChatBot implements Bot {
 
     }
 
-    private void greeting() {
+    private void greetings() {
         OutputInterface.writer(Constant.GREETINGS);
     }
 }

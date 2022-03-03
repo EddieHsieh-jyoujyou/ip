@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import logic.command.DeleteCommand;
 import logic.parser.exceptions.ParseException;
 
-public class DeleteCommandParser implements Parser<DeleteCommand> {
+public class DeleteCommandParser implements CommandParser<DeleteCommand> {
     private static final Pattern DELETE_COMMAND_FORMAT = Pattern.compile("(?<index>[0-9]+)");
 
     @Override

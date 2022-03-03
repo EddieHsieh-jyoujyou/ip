@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import logic.command.DoneCommand;
 import logic.parser.exceptions.ParseException;
 
-public class DoneCommandParser implements Parser<DoneCommand> {
+public class DoneCommandParser implements CommandParser<DoneCommand> {
     private static final Pattern DONE_COMMAND_FORMAT = Pattern.compile("(?<index>[0-9]+)");
 
     @Override

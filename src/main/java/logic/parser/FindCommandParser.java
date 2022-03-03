@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import logic.command.FindCommand;
 import logic.parser.exceptions.ParseException;
 
-public class FindCommandParser implements Parser<FindCommand> {
+public class FindCommandParser implements CommandParser<FindCommand> {
     private static final Pattern FIND_COMMAND_FORMAT = Pattern.compile("(?<keyword>.*)");
 
     @Override

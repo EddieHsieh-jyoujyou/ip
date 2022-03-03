@@ -11,9 +11,11 @@ import model.exceptions.TaskException;
 
 public class DeadlineCommand extends Command {
     public static final String COMMAND_KEYWORD = "deadline";
+    public static final String COMMAND_SINGLE_KEYWORD = "D";
 
     private final LocalDate date;
     private final String name;
+    private final Boolean done;
 
     /**
      * Constructor.
@@ -24,12 +26,28 @@ public class DeadlineCommand extends Command {
     public DeadlineCommand(String name, LocalDate date) {
         this.name = name;
         this.date = date;
+        this.done = false;
+    }
+
+    /**
+     * Constructor with done param.
+     * @param name name of task
+     * @param date date of task
+     * @param done whether task has been done
+     */
+    public DeadlineCommand(String name, LocalDate date, Boolean done) {
+        this.name = name;
+        this.date = date;
+        this.done = done;
     }
 
     @Override
-    public void execute(TaskList list) throws TaskException, ParseException {
+    public String execute(TaskList list) throws TaskException, ParseException {
         Task task = new Task(name, TaskTypeEnum.DEADLINE, date);
+        if (done) {
+            task.markTaskAsDone();
+        }
         list.add(task);
-        OutputInterface.writer(task.toOutput(), list.getTaskList().size());
+        return OutputInterface.formatOutputString(task.toOutput(), list.getTaskList().size());
     }
 }

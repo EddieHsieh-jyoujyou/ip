@@ -16,12 +16,11 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList list) throws ParseException {
+    public String execute(TaskList list) throws ParseException {
         Task task = list.remove(index - 1);
         if (task == null) {
-            OutputInterface.writer(Constant.ERROR_WHILE_DELETE_TASK_FROM_LIST);
-            return;
+            return Constant.ERROR_WHILE_DELETE_TASK_FROM_LIST;
         }
-        OutputInterface.writer(task.toOutput(), list.getTaskList().size());
+        return OutputInterface.formatOutputString(task.toOutput(), list.getTaskList().size());
     }
 }

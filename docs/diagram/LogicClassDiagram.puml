@@ -17,7 +17,10 @@ package logic {
 
     package parser {
         class XYZCommandParser
+        class StorageParser
+        interface CommandParser INTERFACE_COLOR
         interface Parser INTERFACE_COLOR
+        interface StorageCommandParser INTERFACE_COLOR
         class DukeParser
     }
 
@@ -37,22 +40,29 @@ package model{
 
 
 
-Duke .right.> Bot
-Bot <|.right. DukeChatBot
-DukeChatBot -down-> DukeParser
+Duke .down.> Bot
+Bot <|.down. DukeChatBot
+
+DukeChatBot -left-> Parser
 DukeChatBot -right-> TaskList
-DukeChatBot --> Storage
+DukeChatBot -down-> Storage
 
-DukeTaskList <|.left. TaskList
+DukeTaskList .down.|> TaskList
 
-DukeStorage <|.right. Storage
+DukeStorage .up.|> Storage
+DukeStorage -left-> Parser
+DukeStorage .right.> TaskList
+DukeStorage .down.> Command
 
 DukeParser .down.> XYZCommandParser
 DukeParser .right.> Command
+DukeParser .right.|> Parser
+StorageParser .down.|> Parser
 
-XYZCommandParser .left.|> Parser
-XYZCommandParser .right.> XYZCommand
-XYZCommand -up-|> Command
+XYZCommandParser .down.|> CommandParser
+XYZCommandParser .down.> XYZCommand
+XYZCommandParser .left.|> StorageCommandParser
+XYZCommand -down-|> Command
 
 
 @enduml

@@ -8,19 +8,22 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.Objects;
 import java.util.Scanner;
 
 import commons.Constant;
+import commons.util.io.OutputInterface;
+import logic.command.Command;
+import logic.parser.Parser;
+import logic.parser.StorageParser;
+import logic.parser.exceptions.ParseException;
 import model.DukeTaskList;
 import model.Task;
 import model.TaskList;
-import model.TaskTypeEnum;
 import model.exceptions.TaskException;
 
 public class DukeStorage implements Storage {
     private final Path path;
+    private final Parser parser;
 
     /**
      * Constructor of DukeStorage.
@@ -29,6 +32,7 @@ public class DukeStorage implements Storage {
      * @throws IOException create file failed.
      */
     public DukeStorage() throws IOException {
+        this.parser = new StorageParser();
         this.path = Paths.get(
                 FileSystems.getDefault().getPath("").toAbsolutePath().toString(),
                 "data", "duke.txt");
@@ -56,52 +60,27 @@ public class DukeStorage implements Storage {
     }
 
     private TaskList loadTaskListFromFile(Path path) {
-        File dukeChatRecord = new File(path.toString());
+        File dukeChatRecordFile = new File(path.toString());
         TaskList taskList = new DukeTaskList();
         try {
-            Scanner scanner = new Scanner(dukeChatRecord);
+            Scanner scanner = new Scanner(dukeChatRecordFile);
             while (scanner.hasNextLine()) {
-                String input = scanner.nextLine();
-                String [] taskString = input.split(" \\| ");
-                if (Objects.equals(taskString[0], Constant.SINGLE_CHARACTER_TASK_TYPE_TODO)) {
-                    try {
-                        Task task = new Task(taskString[2], TaskTypeEnum.TODO, null);
-                        if (Objects.equals(taskString[1], "1")) {
-                            task.markTaskAsDone();
-                        }
-                        taskList.add(task);
-                    } catch (TaskException e) {
-                        e.printStackTrace();
-                    }
-                } else if (Objects.equals(taskString[0], Constant.SINGLE_CHARACTER_TASK_TYPE_DEADLINE)) {
-                    try {
-                        Task task = new Task(taskString[2], TaskTypeEnum.DEADLINE, LocalDate.parse(taskString[3]));
-                        if (Objects.equals(taskString[1], "1")) {
-                            task.markTaskAsDone();
-                        }
-                        taskList.add(task);
-                    } catch (TaskException e) {
-                        e.printStackTrace();
-                    }
-                } else if (Objects.equals(taskString[0], Constant.SINGLE_CHARACTER_TASK_TYPE_EVENT)) {
-                    try {
-                        Task task = new Task(taskString[2], TaskTypeEnum.EVENT, LocalDate.parse(taskString[3]));
-                        if (Objects.equals(taskString[1], "1")) {
-                            task.markTaskAsDone();
-                        }
-                        taskList.add(task);
-                    } catch (TaskException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    System.out.println("Unknown command from file.");
-                }
+                parseInput(scanner.nextLine(), taskList);
             }
             scanner.close();
         } catch (FileNotFoundException e) {
             System.out.println(Constant.ERROR_WHILE_LOAD_TASK_LIST_FROM_FILE);
         }
         return taskList;
+    }
+
+    private void parseInput(String input, TaskList list) {
+        try {
+            Command command = parser.parseCommand(input);
+            command.execute(list);
+        } catch (ParseException | TaskException e) {
+            OutputInterface.writer(e.getMessage());
+        }
     }
 
     private void saveTasksToFile(Path path, TaskList list) {

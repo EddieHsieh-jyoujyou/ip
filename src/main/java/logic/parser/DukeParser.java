@@ -15,7 +15,7 @@ import logic.command.ListCommand;
 import logic.command.TodoCommand;
 import logic.parser.exceptions.ParseException;
 
-public class DukeParser {
+public class DukeParser implements Parser {
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
     /**
@@ -24,6 +24,7 @@ public class DukeParser {
      * @return {@code Command}
      * @throws ParseException
      */
+    @Override
     public Command parseCommand(String input) throws ParseException {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(input.trim());
 

@@ -14,5 +14,6 @@ public abstract class Command {
      *
      * @param list {@code TaskList} which the command should operate on.
      */
-    public abstract void execute(TaskList list) throws TaskException, ParseException;
+    public abstract String execute(TaskList list) throws TaskException, ParseException;
+
 }
